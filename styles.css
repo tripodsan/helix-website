@@ -1,8 +1,17 @@
 @font-face {
     font-family: 'Trebuchet MS';
-    size-adjust: 90%;
+    size-adjust: 95%;
     src: local('Trebuchet MS'),
          local('TrebuchetMS');
+         font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Trebuchet MS';
+    size-adjust: 88%;
+    src: local('Trebuchet MS'),
+         local('TrebuchetMS');
+         font-weight: 400;
 }
 
 :root {
