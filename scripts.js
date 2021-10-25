@@ -8,6 +8,10 @@ export const config = {
       styles: 'header.css',
     },
     '.marquee': {},
+    '.columns': {
+      location: '/blocks/columns/',
+      styles: 'columns.css',
+    },
     '.feature-list': {
       location: '/blocks/feature-list/',
       styles: 'feature-list.css',
