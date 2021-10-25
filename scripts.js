@@ -7,10 +7,7 @@ export const config = {
       scripts: 'header.js',
       styles: 'header.css',
     },
-    '.marquee': {
-      location: '/blocks/marquee/',
-      scripts: 'marquee.js',
-    },
+    '.marquee': {},
     '.feature-list': {
       location: '/blocks/feature-list/',
       styles: 'feature-list.css',
@@ -241,20 +238,23 @@ export async function loadBlocks(blocks, cfg) {
   }));
 }
 
-function postLCP(type) { window[type] = true; }
+function postLCP(type, blocks) {
+  window[type] = true;
+  loadBlocks(blocks, config);
+  loadStyle('/fonts/fonts.css');
+}
 
-export function setLCPTrigger(lcp) {
+export function setLCPTrigger(lcp, blocks) {
   if (lcp) {
-    if (lcp.complete) { postLCP('lcpComplete'); return; }
-    lcp.addEventListener('load', () => { postLCP('lcpLoad'); });
-    lcp.addEventListener('error', () => { postLCP('lcpError'); });
+    if (lcp.complete) { postLCP('lcpComplete', blocks); return; }
+    lcp.addEventListener('load', () => { postLCP('lcpLoad', blocks); });
+    lcp.addEventListener('error', () => { postLCP('lcpError', blocks); });
     return;
   }
-  postLCP('noLcp');
+  postLCP('noLcp', blocks);
 }
-decorateAnchors(document);
 loadTemplate(config);
+decorateAnchors(document);
 const blocks = decorateBlocks(document);
-loadBlocks(blocks, config);
-const lcp = document.querySelector('img');
-setLCPTrigger(lcp);
+const lcp = document.querySelector('.marquee img');
+setLCPTrigger(lcp, blocks);
