@@ -35,7 +35,6 @@ export const config = {
       styles: 'generator.css',
     },
     '.service-status': {
-      lazy: true,
       location: '/blocks/service-status/',
       scripts: 'service-status.js',
       styles: 'service-status.css',
