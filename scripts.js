@@ -35,6 +35,7 @@ export const config = {
       styles: 'generator.css',
     },
     '.service-status': {
+      lazy: true,
       location: '/blocks/service-status/',
       scripts: 'service-status.js',
       styles: 'service-status.css',
@@ -227,7 +228,7 @@ export async function loadBlocks(blocks, cfg) {
     });
   };
 
-  const options = { rootMargin: cfg.lazyMargin || '1600px 0px' };
+  const options = { rootMargin: cfg.lazyMargin || '1200px 0px' };
   const observer = new IntersectionObserver(onIntersection, options);
   return Promise.all(blocks.map(async (block) => {
     const { blockSelect } = block.dataset;
