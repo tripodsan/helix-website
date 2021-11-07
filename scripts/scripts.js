@@ -7,7 +7,6 @@ export const config = {
       scripts: 'header.js',
       styles: 'header.css',
     },
-    '.marquee': {},
     '.columns': {
       location: '/blocks/columns/',
       styles: 'columns.css',

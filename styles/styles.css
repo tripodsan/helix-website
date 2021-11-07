@@ -63,6 +63,10 @@ body.has-Template {
     transition: opacity .2s;
 }
 
+[class$="-"] {
+    opacity: 0;
+}
+
 [data-block-select] {
     opacity: 0;
 }
