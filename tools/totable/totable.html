@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <script>
+      function cap(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
+
+      function classNameToBlockHeading(className) {
+        const trimmed = className.endsWith('-') ? className.substring(0, className.length - 1) : className; 
+        const splits = trimmed.split('--').map((s) => cap(s));
+        let heading = splits.shift(0);
+        if (splits.length) {
+          heading += ` (${splits.join(', ')})`;
+        }
+        return (heading);
+      }
+
+      function createTableFromBlock(block, plain) {
+        const numCols = [...block.children[0].children].length;
+        const table = plain.createElement('table');
+        const headerTr = plain.createElement('tr');
+        const blockName = classNameToBlockHeading(block.className);
+        headerTr.innerHTML = `<th colspan="${numCols}">${blockName}</th>`;
+        table.append(headerTr);
+        [...block.children].forEach((row) => {
+          const tr = plain.createElement('tr');
+          [...row.children].forEach((cell) => {
+            const td = plain.createElement('td');
+            td.innerHTML = cell.innerHTML;
+            tr.append(td);
+          });
+          table.append(tr);
+        });
+        return (table);
+      }
+
+      async function createDocumentView(path) {
+        const resp = await fetch(`${path}.plain.html`);
+        const html = await resp.text();
+        const plain = new DOMParser().parseFromString(html, 'text/html');
+        plain.querySelectorAll('body > div > div').forEach((block) => {
+          const table = createTableFromBlock(block, plain);
+          block.replaceWith(table);
+        });
+        return plain;
+      }
+    </script>
+  </head>
+  <style>
+    th {
+      background-color: lightblue;
+      font-size: 24px;
+      padding: 10px;
+    }
+
+    table {
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+
+  </style>
+  <body>
+    <div id="docview">
+
+    </div>
+  </body>
+
+  <script>
+    async function run() {
+      $doc = document.getElementById('docview');
+      const documentView = await createDocumentView('/index');
+      $doc.append(documentView.body);
+    }
+    run();
+  </script>
+</html>
